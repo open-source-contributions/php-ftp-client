@@ -522,14 +522,13 @@ class FtpClientTest extends TestCase
         unlink($localFile);
     }
 
-    /**
-     * @depends testCopyToLocalWithDirectory
-    */
     public function testCopyToLocalWithFile() : void
     {
         $client = new FtpClient(ConnectionHelper::getConnection());
 
         $client->createFile(self::$testFile);
+
+        @mkdir('./tmp', 0777, true);
 
         $this->assertTrue($client->copyToLocal(self::$testFile, sys_get_temp_dir()));
         $this->assertFileExists("./tmp/" . basename(self::$testFile));
